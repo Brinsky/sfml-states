@@ -1,0 +1,6 @@
+build/**
+SFML\ State\ Machine
+.sconsign.dblite
+**/*.swp
+**/*.swo
+docs/**
