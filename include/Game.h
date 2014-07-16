@@ -25,7 +25,7 @@ public:
 	// State management functions
 	void changeState(GameState& a_state);
 	void pushState(GameState& a_state);
-	void popState(GameState& a_state);
+	void popState();
 
 	// Lifetime management functions
 	bool isRunning();

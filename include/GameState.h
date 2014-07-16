@@ -32,7 +32,7 @@ protected:
 	// game.changeState(state)
 	void changeState(Game& a_game, GameState& a_state)
 	{
-		game.changeState(a_state)
+		a_game.changeState(a_state);
 	}
 };
 
