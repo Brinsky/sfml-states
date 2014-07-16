@@ -23,16 +23,16 @@ public:
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 
-	virtual void handleEvents(Game& game) = 0;
-	virtual void tick(Game& game) = 0;
-	virtual void draw(Game& game) = 0;
+	virtual void handleEvents(Game& a_game) = 0;
+	virtual void tick(Game& a_game) = 0;
+	virtual void draw(Game& a_game) = 0;
 
 protected:
 	// No reason to be public, external state changes should be made with
 	// game.changeState(state)
-	void changeState(Game& game, GameState& state)
+	void changeState(Game& a_game, GameState& a_state)
 	{
-		game.changeState(state)
+		game.changeState(a_state)
 	}
 };
 
