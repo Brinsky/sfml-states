@@ -1,6 +1,7 @@
 #ifndef GAME_STATE
 #define GAME_STATE
 
+#include <SFML/Graphics.hpp>
 #include "Game.h"
 
 /// A GameState represents a possible state of a Game
@@ -23,9 +24,9 @@ public:
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 
-	virtual void handleEvents(Game& a_game) = 0;
-	virtual void tick(Game& a_game) = 0;
-	virtual void draw(Game& a_game) = 0;
+	virtual void handleEvent(sf::Event a_event) = 0;
+	virtual void tick() = 0;
+	virtual void draw() = 0;
 
 protected:
 	// No reason to be public, external state changes should be made with

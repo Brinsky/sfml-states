@@ -2,13 +2,14 @@
 #define GAME
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 // Forward declaration required to prevent circular dependency.
 class GameState;
 
 /// A Game manages GameStates.
-/// Game is an abstract interface and must be subclassed.
-/// The structure of Game is largely inspired by this post:
+/// Game is (partially) an abstract interface and must be subclassed.
+/// The structure of Game was partly inspired by this post:
 /// http://gamedevgeek.com/tutorials/managing-game-states-in-c/
 class Game
 {
@@ -20,7 +21,9 @@ public:
 	// subclasses
 	virtual ~Game();
 
-	// Non-virtual functions, subclasses can't change these
+	void handleEvent(sf::Event a_event);
+	void tick();
+	void draw();
 
 	// State management functions
 	void changeState(GameState& a_state);
@@ -31,11 +34,11 @@ public:
 	bool isRunning();
 	void quit();
 
-	// Pure virtual functions, must be implemented by subclasses
-	virtual void handleEvents() = 0;
-	virtual void tick() = 0;
-	virtual void draw() = 0;
-	
+
+protected:
+	// Called by handleEvent()
+	virtual void handleGameEvent(sf::Event a_event) = 0;
+
 private:
 	std::vector<GameState*> states;
 	bool running;

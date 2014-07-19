@@ -22,6 +22,33 @@ Game::~Game()
 	}
 }
 
+/// Handles events for both the Game and it's current GameState
+void Game::handleEvent(sf::Event a_event)
+{
+	handleGameEvent(a_event);
+
+	if(!states.empty())
+	{
+		states.back()->handleEvent(a_event);
+	}
+}
+
+void Game::tick()
+{
+	if(!states.empty())
+	{
+		states.back()->tick();
+	}
+}
+
+void Game::draw()
+{
+	if(!states.empty())
+	{
+		states.back()->draw();
+	}
+}
+
 /// Pop the current GameState and push a new one
 void Game::changeState(GameState& a_state)
 {
