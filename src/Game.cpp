@@ -2,7 +2,7 @@
 #include "GameState.h"
 
 /// 'Init' any game related data
-Game::Game()
+Game::Game() //: window(sf::VideoMode(200, 200), "SFML States")
 {
 	running = true;
 }
@@ -20,6 +20,8 @@ Game::~Game()
 		delete states.back();
 		states.pop_back();	
 	}
+
+	window.close();
 }
 
 /// Handles events for both the Game and it's current GameState
@@ -43,10 +45,14 @@ void Game::tick()
 
 void Game::draw()
 {
+	window.clear();
+
 	if(!states.empty())
 	{
-		states.back()->draw();
+		states.back()->draw(window, sf::RenderStates::Default);
 	}
+
+	window.display();
 }
 
 /// Pop the current GameState and push a new one
@@ -102,4 +108,10 @@ bool Game::isRunning()
 void Game::quit()
 {
 	running = false;
+}
+
+/// Allows public access to window events, intended for use in a master loop
+bool Game::pollWindowEvent(sf::Event& a_event)
+{
+	return window.pollEvent(a_event);
 }

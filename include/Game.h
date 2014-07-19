@@ -34,10 +34,12 @@ public:
 	bool isRunning();
 	void quit();
 
-
+	// Access the window's pollEvent function
+	bool pollWindowEvent(sf::Event& a_event);
 protected:
 	// Called by handleEvent()
 	virtual void handleGameEvent(sf::Event a_event) = 0;
+	sf::RenderWindow window;
 
 private:
 	std::vector<GameState*> states;

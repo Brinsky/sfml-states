@@ -26,7 +26,8 @@ public:
 
 	virtual void handleEvent(sf::Event a_event) = 0;
 	virtual void tick() = 0;
-	virtual void draw() = 0;
+	virtual void draw(sf::RenderTarget& a_target,
+		sf::RenderStates a_states) = 0;
 
 protected:
 	// No reason to be public, external state changes should be made with
