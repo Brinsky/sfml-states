@@ -1,51 +1,100 @@
 #include "Game.h"
 #include "GameState.h"
 
-/// 'Init' any game related data
-Game::Game() //: window(sf::VideoMode(200, 200), "SFML States")
+/// Initializes any game related data
+Game::Game() : window(sf::VideoMode(200, 200), "SFML States")
 {
 	running = true;
 }
 
-/// 'Cleanup' any game related data
+/// Cleans up both game and state related data
 Game::~Game()
 {
 	// Empty the stack of GameStates and properly destroy the GameStates
 	while(!states.empty())
 	{
-		// Because states is a vector of pointers to GameStates, it
-		// will not call GameState destructors when those pointers are
-		// popped. It is critical to explicitly destroy the underlying
-		// objects with 'delete'
+		// In order to call state destructors, state pointers must be
+		// explicitly deleted
 		delete states.back();
-		states.pop_back();	
+		states.pop_back();
 	}
 
 	window.close();
 }
 
-/// Handles events for both the Game and it's current GameState
-void Game::handleEvent(sf::Event a_event)
+/// Loops all major game functions while the game is running
+void Game::loop()
 {
-	handleGameEvent(a_event);
+    sf::Event event;
 
-	if(!states.empty())
+	while (running)
 	{
-		states.back()->handleEvent(a_event);
+		while (window.pollEvent(event))
+		{
+			masterEvent(event);
+		}
+
+		masterTick();
+		masterDraw();
 	}
 }
 
+//~--- Game specific loop functions (should not call state loop functions!)
+
+/// Responds to any Game-level SFML events
+void Game::event(sf::Event a_event)
+{
+    // Handle window exit. Derived classes can call quit().
+    if (a_event.type == sf::Event::Closed)
+    {
+        running = false;
+    }
+
+    // Override if more actions are desired
+}
+
+/// Performs any SFML-event-independent actions
 void Game::tick()
 {
+    // Do nothing by default, override if desired
+}
+
+/// Performs any Game-level drawing
+void Game::draw()
+{
+    // Do nothing by default, override if desired
+}
+
+//~--- Proxy loop functions
+
+/// Handles events for both the Game and it's current GameState
+void Game::masterEvent(sf::Event a_event)
+{
+	event(a_event);
+
+	if(!states.empty())
+	{
+		states.back()->event(a_event);
+	}
+}
+
+/// Performs actions for both the Game and it's current GameState
+void Game::masterTick()
+{
+    tick();
+
 	if(!states.empty())
 	{
 		states.back()->tick();
 	}
 }
 
-void Game::draw()
+/// Draws both the Game and it's current GameState
+void Game::masterDraw()
 {
 	window.clear();
+
+	draw();
 
 	if(!states.empty())
 	{
@@ -55,34 +104,36 @@ void Game::draw()
 	window.display();
 }
 
+//~--- State stack management functions
+
 /// Pop the current GameState and push a new one
-void Game::changeState(GameState& a_state)
+void Game::changeState(GameState* a_state)
 {
 	if(!states.empty())
 	{
 		// The explicit deletion is necessary, see destructor
 		delete states.back();
-		states.pop_back();	
+		states.pop_back();
 	}
 
 	pushState(a_state);
 
 	// GameStates start paused
-	a_state.resume();
+	a_state->resume();
 }
 
 /// Push a GameState onto the stack
-void Game::pushState(GameState& a_state)
+void Game::pushState(GameState* a_state)
 {
 	if(!states.empty())
 	{
 		states.back()->pause();
 	}
 
-	states.push_back(&a_state);
+	states.push_back(a_state);
 
 	// GameStates start paused
-	a_state.resume();
+	a_state->resume();
 }
 
 /// Pop a GameState off of the stack
@@ -92,26 +143,17 @@ void Game::popState()
 	{
 		// The explicit deletion is necessary, see destructor
 		delete states.back();
-		states.pop_back();	
+		states.pop_back();
 
 		// Resume previous state
 		states.back()->resume();
 	}
 }
 
-/// Presumably a master loop would use this as a cue to exit
-bool Game::isRunning()
-{
-	return running;
-}
+//~--- Lifetime functions
 
+/// Signals intention to exit the game at the next opportunity
 void Game::quit()
 {
 	running = false;
-}
-
-/// Allows public access to window events, intended for use in a master loop
-bool Game::pollWindowEvent(sf::Event& a_event)
-{
-	return window.pollEvent(a_event);
 }

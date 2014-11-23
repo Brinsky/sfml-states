@@ -7,41 +7,42 @@
 // Forward declaration required to prevent circular dependency.
 class GameState;
 
-/// A Game manages GameStates.
-/// Game is (partially) an abstract interface and must be subclassed.
+/// A Game manages an SFML window, SFML events, and GameStates.
 /// The structure of Game was partly inspired by this post:
 /// http://gamedevgeek.com/tutorials/managing-game-states-in-c/
 class Game
 {
 public:
-	// No need for 'init' and 'cleanup' functions, we have constructors
-	// and destructors to do that (and mandate it)
 	Game();
-	// Destructor must be virtual to ensure proper destruction of
-	// subclasses
 	virtual ~Game();
 
-	void handleEvent(sf::Event a_event);
-	void tick();
-	void draw();
+	// Main loop functions
+	void loop();
 
 	// State management functions
-	void changeState(GameState& a_state);
-	void pushState(GameState& a_state);
+    // Warning: These functions WILL delete the given states; the states must
+    // be allocated dynamically (e.g. new State) before being passed.
+	void changeState(GameState* a_state);
+	void pushState(GameState* a_state);
 	void popState();
 
-	// Lifetime management functions
-	bool isRunning();
 	void quit();
 
-	// Access the window's pollEvent function
-	bool pollWindowEvent(sf::Event& a_event);
 protected:
-	// Called by handleEvent()
-	virtual void handleGameEvent(sf::Event a_event) = 0;
+    // Game loop functions, called in this order
+    virtual void event(sf::Event a_event);
+    virtual void tick();
+	virtual void draw();
+
 	sf::RenderWindow window;
 
 private:
+    // Proxy functions to ensure that both game loop and state loop functions
+    // are called
+    void masterEvent(sf::Event a_event);
+	void masterTick();
+	void masterDraw();
+
 	std::vector<GameState*> states;
 	bool running;
 };

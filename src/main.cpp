@@ -1,26 +1,20 @@
 #include <iostream>
-#include "ExampleGame.h"
+#include "Game.h"
+#include "ExampleStateA.h"
 
 int main()
 {
-	std::cout << "Howdy!" << std::endl;
-	ExampleGame game;
-	//StateA testState;
+	Game game;
 
-	//game.pushState(testState);
-	
-	sf::Event event;
+	sf::Font font;
+    if (!font.loadFromFile("fonts/Montserrat-Regular.ttf"))
+    {
+        return -1;
+    }
 
-	while (game.isRunning())
-	{
-		while (game.pollWindowEvent(event))
-		{
-			game.handleEvent(event);
-		}
+	game.pushState(new ExampleStateA(game, font));
 
-		game.tick();
-		game.draw();
-	}
+	game.loop();
 
 	return 0;
 }

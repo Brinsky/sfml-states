@@ -11,31 +11,21 @@
 class GameState
 {
 public:
-	// No need for 'init' and 'cleanup' functions, we have constructors
-	// and destructors to do that (and mandate it)
-	GameState();
-	// Destructor must be virtual to ensure proper destruction of
-	// subclasses
+	GameState(Game& a_game);
 	virtual ~GameState();
-
-	// Pure virtual functions, must be implemented by subclass
 
 	// Lifetime management functions
 	virtual void pause() = 0;
 	virtual void resume() = 0;
 
-	virtual void handleEvent(sf::Event a_event) = 0;
+    // State loop functions, called in this order
+	virtual void event(sf::Event a_event) = 0;
 	virtual void tick() = 0;
 	virtual void draw(sf::RenderTarget& a_target,
 		sf::RenderStates a_states) = 0;
 
 protected:
-	// No reason to be public, external state changes should be made with
-	// game.changeState(state)
-	void changeState(Game& a_game, GameState& a_state)
-	{
-		a_game.changeState(a_state);
-	}
+    Game& game;
 };
 
 #endif

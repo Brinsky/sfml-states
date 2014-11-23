@@ -4,3 +4,4 @@ SFML\ State\ Machine
 **/*.swp
 **/*.swo
 docs/**
+**/*.exe
