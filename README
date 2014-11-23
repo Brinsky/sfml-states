@@ -1,3 +1,3 @@
 SFML State Machine
 
-A test/example of simple FSM (finite state machine) built around SFML.
+A simple state machine built around SFML. Intended for making SFML-based games.
