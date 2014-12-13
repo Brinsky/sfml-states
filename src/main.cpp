@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "Game.h"
 #include "ExampleStateA.h"
 
@@ -12,7 +13,7 @@ int main()
         return -1;
     }
 
-	game.pushState(new ExampleStateA(game, font));
+	game.pushState(std::unique_ptr<ExampleStateA>(new ExampleStateA(game, font)));
 
 	game.loop();
 

@@ -1,7 +1,8 @@
 #ifndef GAME
 #define GAME
 
-#include <vector>
+#include <stack>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 // Forward declaration required to prevent circular dependency.
@@ -22,8 +23,8 @@ public:
 	// State management functions
     // Warning: These functions WILL delete the given states; the states must
     // be allocated dynamically (e.g. new State) before being passed.
-	void changeState(GameState* a_state);
-	void pushState(GameState* a_state);
+	void changeState(std::unique_ptr<GameState> a_state);
+	void pushState(std::unique_ptr<GameState> a_state);
 	void popState();
 
 	void quit();
@@ -43,7 +44,7 @@ private:
 	void masterTick();
 	void masterDraw();
 
-	std::vector<GameState*> states;
+	std::stack<std::unique_ptr<GameState>> states;
 	bool running;
 };
 
