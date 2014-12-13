@@ -14,7 +14,7 @@ class GameState;
 class Game
 {
 public:
-	Game();
+	Game(sf::RenderWindow& a_window);
 	virtual ~Game();
 
 	// Main loop functions
@@ -35,7 +35,7 @@ protected:
     virtual void tick();
 	virtual void draw();
 
-	sf::RenderWindow window;
+	sf::RenderWindow& window;
 
 private:
     // Proxy functions to ensure that both game loop and state loop functions

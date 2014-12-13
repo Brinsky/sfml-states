@@ -1,12 +1,15 @@
 #include <iostream>
 #include <memory>
+#include <SFML/Graphics.hpp>
 
 #include "Game.h"
 #include "ExampleStateA.h"
 
 int main()
 {
-	Game game;
+	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML States");
+
+	Game game(window);
 
 	sf::Font font;
     if (!font.loadFromFile("fonts/Montserrat-Regular.ttf"))

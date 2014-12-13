@@ -1,9 +1,11 @@
-#include <iostream>
 #include "Game.h"
+
+#include <iostream>
+
 #include "GameState.h"
 
 /// Initializes any game related data
-Game::Game() : window(sf::VideoMode(200, 200), "SFML States")
+Game::Game(sf::RenderWindow& a_window) : window(a_window)
 {
 	running = true;
 }
