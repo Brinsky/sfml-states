@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <memory>
 #include <stack>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 // Forward declaration required to prevent circular dependency.

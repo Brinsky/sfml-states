@@ -7,7 +7,7 @@ execName = 'sfml-states'
 
 libList = [ 'sfml-window','sfml-system','sfml-graphics' ]
 
-env = Environment( CPPPATH = [ './include', '/usr/include' ] )
+env = Environment( CPPPATH = [ './include', '/usr/include' ], CXXFLAGS = "-std=c++11" )
 
 # The "'../' + " before the target name is used to keep the executable in the top level of the project folder
 # Remove it in order to keep the executable in the variant_dir
