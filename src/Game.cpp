@@ -14,7 +14,7 @@ Game::Game(sf::RenderWindow& a_window) : window(a_window)
 Game::~Game()
 {
     // Empty the stack of GameStates and properly destroy the GameStates
-    while(!states.empty())
+    while (!states.empty())
     {
         states.pop();
     }
@@ -72,7 +72,7 @@ void Game::masterEvent(sf::Event a_event)
 {
     event(a_event);
 
-    if(!states.empty())
+    if (!states.empty())
     {
         states.top()->event(a_event);
     }
@@ -83,7 +83,7 @@ void Game::masterTick()
 {
     tick();
 
-    if(!states.empty())
+    if (!states.empty())
     {
         states.top()->tick();
     }
@@ -96,7 +96,7 @@ void Game::masterDraw()
 
     draw();
 
-    if(!states.empty())
+    if (!states.empty())
     {
         states.top()->draw(window, sf::RenderStates::Default);
     }
@@ -109,7 +109,7 @@ void Game::masterDraw()
 /// Pop the current GameState and push a new one
 void Game::changeState(std::unique_ptr<GameState> state)
 {
-    if(!states.empty())
+    if (!states.empty())
     {
         states.pop();
     }
@@ -120,7 +120,7 @@ void Game::changeState(std::unique_ptr<GameState> state)
 /// Push a GameState onto the stack
 void Game::pushState(std::unique_ptr<GameState> state)
 {
-    if(!states.empty())
+    if (!states.empty())
     {
         states.top()->pause();
     }
@@ -134,7 +134,7 @@ void Game::pushState(std::unique_ptr<GameState> state)
 /// Pop a GameState off of the stack
 void Game::popState()
 {
-    if(!states.empty())
+    if (!states.empty())
     {
         states.pop();
 

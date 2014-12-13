@@ -45,7 +45,8 @@ void ExampleStateB::event(sf::Event a_event)
     {
         if (a_event.key.code == sf::Keyboard::Space)
         {
-           game.changeState(std::unique_ptr<GameState>(new ExampleStateA(game, font)));
+            game.changeState(
+                std::unique_ptr<GameState>(new ExampleStateA(game, font)));
         }
     }
 }
