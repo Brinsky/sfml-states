@@ -13,9 +13,6 @@ Game::~Game()
 	// Empty the stack of GameStates and properly destroy the GameStates
 	while(!states.empty())
 	{
-		// In order to call state destructors, state pointers must be
-		// explicitly deleted
-		delete states.back();
 		states.pop_back();
 	}
 
@@ -107,33 +104,28 @@ void Game::masterDraw()
 //~--- State stack management functions
 
 /// Pop the current GameState and push a new one
-void Game::changeState(GameState* a_state)
+void Game::changeState(std::unique_ptr<GameState> state)
 {
 	if(!states.empty())
 	{
-		// The explicit deletion is necessary, see destructor
-		delete states.back();
 		states.pop_back();
 	}
 
-	pushState(a_state);
-
-	// GameStates start paused
-	a_state->resume();
+	pushState(std::move(state));
 }
 
 /// Push a GameState onto the stack
-void Game::pushState(GameState* a_state)
+void Game::pushState(std::unique_ptr<GameState> state)
 {
 	if(!states.empty())
 	{
 		states.back()->pause();
 	}
 
-	states.push_back(a_state);
+	// GameStates start paused and must be resumed
+	state->resume();
 
-	// GameStates start paused
-	a_state->resume();
+	states.push_back(std::move(state));
 }
 
 /// Pop a GameState off of the stack
@@ -141,8 +133,6 @@ void Game::popState()
 {
 	if(!states.empty())
 	{
-		// The explicit deletion is necessary, see destructor
-		delete states.back();
 		states.pop_back();
 
 		// Resume previous state

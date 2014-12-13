@@ -1,6 +1,7 @@
-#ifndef GAME
-#define GAME
+#ifndef GAME_H
+#define GAME_H
 
+#include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
 
@@ -22,8 +23,8 @@ public:
 	// State management functions
     // Warning: These functions WILL delete the given states; the states must
     // be allocated dynamically (e.g. new State) before being passed.
-	void changeState(GameState* a_state);
-	void pushState(GameState* a_state);
+	void changeState(std::unique_ptr<GameState> state);
+	void pushState(std::unique_ptr<GameState> state);
 	void popState();
 
 	void quit();
@@ -43,7 +44,7 @@ private:
 	void masterTick();
 	void masterDraw();
 
-	std::vector<GameState*> states;
+	std::vector<std::unique_ptr<GameState>> states;
 	bool running;
 };
 

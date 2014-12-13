@@ -1,5 +1,7 @@
 #include "ExampleStateB.h"
 
+#include <memory>
+
 #include "ExampleStateA.h"
 
 ExampleStateB::ExampleStateB(Game& a_game, sf::Font& a_font) :
@@ -43,7 +45,7 @@ void ExampleStateB::event(sf::Event a_event)
     {
         if (a_event.key.code == sf::Keyboard::Space)
         {
-           game.changeState(new ExampleStateA(game, font));
+           game.changeState(std::unique_ptr<GameState>(new ExampleStateA(game, font)));
         }
     }
 }
