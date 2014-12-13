@@ -7,19 +7,19 @@
 /// Initializes any game related data
 Game::Game(sf::RenderWindow& a_window) : window(a_window)
 {
-	running = true;
+    running = true;
 }
 
 /// Cleans up both game and state related data
 Game::~Game()
 {
-	// Empty the stack of GameStates and properly destroy the GameStates
-	while(!states.empty())
-	{
-		states.pop();
-	}
+    // Empty the stack of GameStates and properly destroy the GameStates
+    while(!states.empty())
+    {
+        states.pop();
+    }
 
-	window.close();
+    window.close();
 }
 
 /// Loops all major game functions while the game is running
@@ -27,16 +27,16 @@ void Game::loop()
 {
     sf::Event event;
 
-	while (running)
-	{
-		while (window.pollEvent(event))
-		{
-			masterEvent(event);
-		}
+    while (running)
+    {
+        while (window.pollEvent(event))
+        {
+            masterEvent(event);
+        }
 
-		masterTick();
-		masterDraw();
-	}
+        masterTick();
+        masterDraw();
+    }
 }
 
 //~--- Game specific loop functions (should not call state loop functions!)
@@ -70,12 +70,12 @@ void Game::draw()
 /// Handles events for both the Game and it's current GameState
 void Game::masterEvent(sf::Event a_event)
 {
-	event(a_event);
+    event(a_event);
 
-	if(!states.empty())
-	{
-		states.top()->event(a_event);
-	}
+    if(!states.empty())
+    {
+        states.top()->event(a_event);
+    }
 }
 
 /// Performs actions for both the Game and it's current GameState
@@ -83,25 +83,25 @@ void Game::masterTick()
 {
     tick();
 
-	if(!states.empty())
-	{
-		states.top()->tick();
-	}
+    if(!states.empty())
+    {
+        states.top()->tick();
+    }
 }
 
 /// Draws both the Game and it's current GameState
 void Game::masterDraw()
 {
-	window.clear();
+    window.clear();
 
-	draw();
+    draw();
 
-	if(!states.empty())
-	{
-		states.top()->draw(window, sf::RenderStates::Default);
-	}
+    if(!states.empty())
+    {
+        states.top()->draw(window, sf::RenderStates::Default);
+    }
 
-	window.display();
+    window.display();
 }
 
 //~--- State stack management functions
@@ -109,38 +109,38 @@ void Game::masterDraw()
 /// Pop the current GameState and push a new one
 void Game::changeState(std::unique_ptr<GameState> state)
 {
-	if(!states.empty())
-	{
-		states.pop();
-	}
+    if(!states.empty())
+    {
+        states.pop();
+    }
 
-	pushState(std::move(state));
+    pushState(std::move(state));
 }
 
 /// Push a GameState onto the stack
 void Game::pushState(std::unique_ptr<GameState> state)
 {
-	if(!states.empty())
-	{
-		states.top()->pause();
-	}
+    if(!states.empty())
+    {
+        states.top()->pause();
+    }
 
-	// GameStates start paused and must be resumed
-	state->resume();
+    // GameStates start paused and must be resumed
+    state->resume();
 
-	states.push(std::move(state));
+    states.push(std::move(state));
 }
 
 /// Pop a GameState off of the stack
 void Game::popState()
 {
-	if(!states.empty())
-	{
-		states.pop();
+    if(!states.empty())
+    {
+        states.pop();
 
-		// Resume previous state
-		states.top()->resume();
-	}
+        // Resume previous state
+        states.top()->resume();
+    }
 }
 
 //~--- Lifetime functions
@@ -148,5 +148,5 @@ void Game::popState()
 /// Signals intention to exit the game at the next opportunity
 void Game::quit()
 {
-	running = false;
+    running = false;
 }

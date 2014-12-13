@@ -7,19 +7,19 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML States");
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML States");
 
-	Game game(window);
+    Game game(window);
 
-	sf::Font font;
+    sf::Font font;
     if (!font.loadFromFile("fonts/Montserrat-Regular.ttf"))
     {
         return -1;
     }
 
-	game.pushState(std::unique_ptr<GameState>(new ExampleStateA(game, font)));
+    game.pushState(std::unique_ptr<GameState>(new ExampleStateA(game, font)));
 
-	game.loop();
+    game.loop();
 
-	return 0;
+    return 0;
 }

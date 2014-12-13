@@ -11,18 +11,18 @@
 class GameState
 {
 public:
-	GameState(Game& a_game);
-	virtual ~GameState();
+    GameState(Game& a_game);
+    virtual ~GameState();
 
-	// Lifetime management functions
-	virtual void pause() = 0;
-	virtual void resume() = 0;
+    // Lifetime management functions
+    virtual void pause() = 0;
+    virtual void resume() = 0;
 
     // State loop functions, called in this order
-	virtual void event(sf::Event a_event) = 0;
-	virtual void tick() = 0;
-	virtual void draw(sf::RenderTarget& a_target,
-		sf::RenderStates a_states) = 0;
+    virtual void event(sf::Event a_event) = 0;
+    virtual void tick() = 0;
+    virtual void draw(sf::RenderTarget& a_target,
+        sf::RenderStates a_states) = 0;
 
 protected:
     Game& game;

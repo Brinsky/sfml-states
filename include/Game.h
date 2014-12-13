@@ -14,38 +14,38 @@ class GameState;
 class Game
 {
 public:
-	Game(sf::RenderWindow& a_window);
-	virtual ~Game();
+    Game(sf::RenderWindow& a_window);
+    virtual ~Game();
 
-	// Main loop functions
-	void loop();
+    // Main loop functions
+    void loop();
 
-	// State management functions
+    // State management functions
     // Warning: These functions WILL delete the given states; the states must
     // be allocated dynamically (e.g. new State) before being passed.
-	void changeState(std::unique_ptr<GameState> state);
-	void pushState(std::unique_ptr<GameState> state);
-	void popState();
+    void changeState(std::unique_ptr<GameState> state);
+    void pushState(std::unique_ptr<GameState> state);
+    void popState();
 
-	void quit();
+    void quit();
 
 protected:
     // Game loop functions, called in this order
     virtual void event(sf::Event a_event);
     virtual void tick();
-	virtual void draw();
+    virtual void draw();
 
-	sf::RenderWindow& window;
+    sf::RenderWindow& window;
 
 private:
     // Proxy functions to ensure that both game loop and state loop functions
     // are called
     void masterEvent(sf::Event a_event);
-	void masterTick();
-	void masterDraw();
+    void masterTick();
+    void masterDraw();
 
-	std::stack<std::unique_ptr<GameState>> states;
-	bool running;
+    std::stack<std::unique_ptr<GameState>> states;
+    bool running;
 };
 
 #endif
