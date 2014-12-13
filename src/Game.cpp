@@ -13,7 +13,7 @@ Game::~Game()
 	// Empty the stack of GameStates and properly destroy the GameStates
 	while(!states.empty())
 	{
-		states.pop_back();
+		states.pop();
 	}
 
 	window.close();
@@ -71,7 +71,7 @@ void Game::masterEvent(sf::Event a_event)
 
 	if(!states.empty())
 	{
-		states.back()->event(a_event);
+		states.top()->event(a_event);
 	}
 }
 
@@ -82,7 +82,7 @@ void Game::masterTick()
 
 	if(!states.empty())
 	{
-		states.back()->tick();
+		states.top()->tick();
 	}
 }
 
@@ -95,7 +95,7 @@ void Game::masterDraw()
 
 	if(!states.empty())
 	{
-		states.back()->draw(window, sf::RenderStates::Default);
+		states.top()->draw(window, sf::RenderStates::Default);
 	}
 
 	window.display();
@@ -108,7 +108,7 @@ void Game::changeState(std::unique_ptr<GameState> state)
 {
 	if(!states.empty())
 	{
-		states.pop_back();
+		states.pop();
 	}
 
 	pushState(std::move(state));
@@ -119,13 +119,13 @@ void Game::pushState(std::unique_ptr<GameState> state)
 {
 	if(!states.empty())
 	{
-		states.back()->pause();
+		states.top()->pause();
 	}
 
 	// GameStates start paused and must be resumed
 	state->resume();
 
-	states.push_back(std::move(state));
+	states.push(std::move(state));
 }
 
 /// Pop a GameState off of the stack
@@ -133,10 +133,10 @@ void Game::popState()
 {
 	if(!states.empty())
 	{
-		states.pop_back();
+		states.pop();
 
 		// Resume previous state
-		states.back()->resume();
+		states.top()->resume();
 	}
 }
 

@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include <memory>
-#include <vector>
+#include <stack>
 #include <SFML/Graphics.hpp>
 
 // Forward declaration required to prevent circular dependency.
@@ -44,7 +44,7 @@ private:
 	void masterTick();
 	void masterDraw();
 
-	std::vector<std::unique_ptr<GameState>> states;
+	std::stack<std::unique_ptr<GameState>> states;
 	bool running;
 };
 
