@@ -24,7 +24,7 @@ class GameState
         virtual void draw(sf::RenderTarget& a_target,
                           sf::RenderStates a_states) = 0;
 
-    private:
+    protected:
         Game& game;
 };
 
