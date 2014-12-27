@@ -5,7 +5,9 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-// Forward declaration required to prevent circular dependency.
+#include "CenteredSprite.h"
+
+// Forward declaration, required to prevent circular dependency
 class GameState;
 
 /// A Game manages an SFML window, SFML events, and GameStates.
@@ -14,32 +16,41 @@ class GameState;
 class Game
 {
     public:
-        Game(sf::RenderWindow& a_window);
+        Game(sf::RenderWindow& window, sf::RenderTexture& virtualScreen);
         virtual ~Game();
 
-        // Main loop functions
+        // Main loop method
         void loop();
 
-        // State management functions
+        // State management methods
         void changeState(std::unique_ptr<GameState> state);
         void pushState(std::unique_ptr<GameState> state);
         void popState();
 
         void quit();
 
+    protected:
+        sf::RenderWindow& window;
+        sf::RenderTexture& virtualScreen;
+
     private:
-        // Game loop functions, called in this order
+        // Game loop methods, called in this order
         virtual void event(sf::Event a_event);
         virtual void tick();
         virtual void draw();
 
-        // Proxy functions to ensure that both game loop and state loop
-        // functions are called
+        // Proxy methods to ensure that both the game loop and state loop
+        // methods are called (particularly to ensure that derived classes
+        // can't change this behavior)
         void masterEvent(sf::Event a_event);
         void masterTick();
         void masterDraw();
 
-        sf::RenderWindow& window;
+        void maintainAspectRatio(sf::View& view, sf::RenderWindow& window);
+
+        CenteredSprite screenSprite;
+        sf::View screenView;
+
         std::stack<std::unique_ptr<GameState>> states;
         bool running;
 };
