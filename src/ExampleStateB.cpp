@@ -56,9 +56,9 @@ void ExampleStateB::tick()
 
 }
 
-void ExampleStateB::draw(sf::RenderTarget& a_target, sf::RenderStates a_states)
+void ExampleStateB::draw(sf::RenderTarget& a_target)
 {
-    a_target.draw(shape, a_states);
-    a_target.draw(text, a_states);
-    a_target.draw(pressSpace, a_states);
+    a_target.draw(shape);
+    a_target.draw(text);
+    a_target.draw(pressSpace);
 }

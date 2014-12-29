@@ -14,8 +14,8 @@ class ExampleStateA : public GameState
 
         void event(sf::Event a_event);
         void tick();
-        void draw(sf::RenderTarget& a_target,
-            sf::RenderStates a_states);
+        void draw(sf::RenderTarget& a_target);
+
     private:
         sf::CircleShape shape;
         sf::Font& font;

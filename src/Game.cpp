@@ -11,8 +11,18 @@ Game::Game(sf::RenderWindow& a_window, sf::RenderTexture& virtualScreen) :
     screenView(sf::Vector2f(0, 0), sf::Vector2f(virtualScreen.getSize().x,
                                                 virtualScreen.getSize().y))
 {
-    running = true;
+    // The maintainAspectRatio() method requires the sprite in question to be
+    // centered
+    screenSprite.setOrigin(float(screenSprite.getTextureRect().width / 2.0),
+                           float(screenSprite.getTextureRect().height / 2.0));
+
+    screenSprite.setTextureRect(sf::IntRect(0,
+                                            virtualScreen.getSize().y,
+                                            virtualScreen.getSize().x,
+                                            -virtualScreen.getSize().y));
+
     maintainAspectRatio(screenView, window);
+    running = true;
 }
 
 /// Cleans up both game and state related data
