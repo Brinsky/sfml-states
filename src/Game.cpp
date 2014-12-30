@@ -4,12 +4,12 @@
 
 #include "GameState.h"
 
-Game::Game(sf::RenderWindow& a_window, sf::RenderTexture& virtualScreen) :
+Game::Game(sf::RenderWindow& a_window, VirtualScreen& a_screen) :
     window(a_window),
-    virtualScreen(virtualScreen),
-    screenSprite(virtualScreen.getTexture()),
-    screenView(sf::Vector2f(0, 0), sf::Vector2f(virtualScreen.getSize().x,
-                                                virtualScreen.getSize().y))
+    screen(a_screen),
+    screenSprite(screen.getTexture()),
+    screenView(sf::Vector2f(0, 0), sf::Vector2f(screen.getSize().x,
+                                                screen.getSize().y))
 {
     // The maintainAspectRatio() method requires the sprite in question to be
     // centered
@@ -17,9 +17,9 @@ Game::Game(sf::RenderWindow& a_window, sf::RenderTexture& virtualScreen) :
                            float(screenSprite.getTextureRect().height / 2.0));
 
     screenSprite.setTextureRect(sf::IntRect(0,
-                                            virtualScreen.getSize().y,
-                                            virtualScreen.getSize().x,
-                                            -virtualScreen.getSize().y));
+                                            screen.getSize().y,
+                                            screen.getSize().x,
+                                            -screen.getSize().y));
 
     maintainAspectRatio(screenView, window);
     running = true;
@@ -145,14 +145,14 @@ void Game::masterTick()
 /// Draws both the Game and it's current GameState
 void Game::masterDraw()
 {
-    virtualScreen.clear();
+    screen.clear();
 
     draw();
 
     // Pass any GameStates our virtual screen to draw on. They will have no
     // knowledge of the actual window.
     if (!states.empty())
-        states.top()->draw(virtualScreen);
+        states.top()->draw(screen);
 
     // Draw our virtual screen onto our real window. The view established by
     // maintainAspectRatio() will ensure proper size, ratio, and positioning

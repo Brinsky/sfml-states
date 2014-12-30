@@ -8,10 +8,9 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML States");
-    sf::RenderTexture virtualScreen;
-    virtualScreen.create(200, 200);
+    VirtualScreen screen(200, 200);
     
-    Game game(window, virtualScreen);
+    Game game(window, screen);
 
     sf::Font font;
     if (!font.loadFromFile("fonts/Montserrat-Regular.ttf"))

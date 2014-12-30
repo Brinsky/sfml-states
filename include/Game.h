@@ -5,6 +5,8 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
+#include "VirtualScreen.h"
+
 // Forward declaration, required to prevent circular dependency
 class GameState;
 
@@ -14,7 +16,7 @@ class GameState;
 class Game
 {
     public:
-        Game(sf::RenderWindow& window, sf::RenderTexture& virtualScreen);
+        Game(sf::RenderWindow& a_window, VirtualScreen& a_screen);
         virtual ~Game();
 
         // Main loop method
@@ -29,7 +31,7 @@ class Game
 
     protected:
         sf::RenderWindow& window;
-        sf::RenderTexture& virtualScreen;
+        VirtualScreen& screen;
 
     private:
         // Game loop methods, called in this order
