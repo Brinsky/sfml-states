@@ -56,9 +56,9 @@ void ExampleStateA::tick()
 
 }
 
-void ExampleStateA::draw(sf::RenderTarget& a_target)
+void ExampleStateA::draw(VirtualScreen& screen)
 {
-    a_target.draw(shape);
-    a_target.draw(text);
-    a_target.draw(pressSpace);
+    screen.draw(shape);
+    screen.draw(text);
+    screen.draw(pressSpace);
 }

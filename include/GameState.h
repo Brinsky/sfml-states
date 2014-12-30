@@ -21,7 +21,7 @@ class GameState
         // State loop functions, called in this order
         virtual void event(sf::Event a_event) = 0;
         virtual void tick() = 0;
-        virtual void draw(sf::RenderTarget& target) = 0;
+        virtual void draw(VirtualScreen& screen) = 0;
 
     protected:
         Game& game;
