@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include "Game.h"
 
 /// A GameState represents a possible state of a Game.
@@ -19,8 +20,8 @@ class GameState
         virtual void resume() = 0;
 
         // State loop functions, called in this order
-        virtual void event(sf::Event a_event) = 0;
-        virtual void tick() = 0;
+        virtual void event(sf::Time elapsed, sf::Event a_event) = 0;
+        virtual void update(sf::Time elapsed) = 0;
         virtual void draw(VirtualScreen& screen) = 0;
 
     protected:

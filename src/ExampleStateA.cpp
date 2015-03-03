@@ -39,7 +39,7 @@ void ExampleStateA::resume()
 
 }
 
-void ExampleStateA::event(sf::Event a_event)
+void ExampleStateA::event(sf::Time elapsed, sf::Event a_event)
 {
     if (a_event.type == sf::Event::KeyReleased)
     {
@@ -51,7 +51,7 @@ void ExampleStateA::event(sf::Event a_event)
     }
 }
 
-void ExampleStateA::tick()
+void ExampleStateA::update(sf::Time elapsed)
 {
 
 }

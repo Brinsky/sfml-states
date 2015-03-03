@@ -4,6 +4,7 @@
 #include <stack>
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 #include "VirtualScreen.h"
 
@@ -35,15 +36,15 @@ class Game
 
     private:
         // Game loop methods, called in this order
-        virtual void event(sf::Event a_event);
-        virtual void tick();
+        virtual void event(sf::Time elapsed, sf::Event a_event);
+        virtual void update(sf::Time elapsed);
         virtual void draw();
 
         // Proxy methods to ensure that both the game loop and state loop
         // methods are called (particularly to ensure that derived classes
         // can't change this behavior)
-        void masterEvent(sf::Event a_event);
-        void masterTick();
+        void masterEvent(sf::Time elapsed, sf::Event a_event);
+        void masterUpdate(sf::Time elapsed);
         void masterDraw();
 
         void maintainAspectRatio(sf::View& view, sf::RenderWindow& window);

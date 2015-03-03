@@ -40,14 +40,15 @@ Game::~Game()
 /// its GameStates' major game methods.
 void Game::loop()
 {
-    sf::Event event;
+    sf::Event a_event;
+    sf::Time elapsed;
 
     while (running)
     {
-        while (window.pollEvent(event))
-            masterEvent(event);
+        while (window.pollEvent(a_event))
+            masterEvent(elapsed, a_event);
 
-        masterTick();
+        masterUpdate(elapsed);
         masterDraw();
     }
 }
@@ -93,53 +94,58 @@ void Game::quit()
     running = false;
 }
 
-//~--- Game specific loop methods (should not call state loop functions!)
+//~--- Game specific loop methods (thse should not call state loop functions!)
 
-/// Responds to any Game-level SFML events
-void Game::event(sf::Event a_event)
+/// Handles any top level Game events
+void Game::event(sf::Time elapsed, sf::Event a_event)
 {
     // Handle window exit. Derived classes can call quit().
     if (a_event.type == sf::Event::Closed)
         running = false;
 
-    // Override if more actions are desired
+    //  Override if more/different actions are desired
 }
 
-/// Performs any SFML-event-independent actions
-void Game::tick()
+/// Performs any per-frame Game updates
+void Game::update(sf::Time elapsed)
 {
-    // Do nothing by default, override if desired
+    // Override if more actions are desired
 }
 
 /// Performs any Game-level drawing
 void Game::draw()
 {
-    
+    // Override if more actions are desired   
 }
 
 //~--- Proxy loop methods
 
-/// Handles events for both the Game and it's current GameState
-void Game::masterEvent(sf::Event a_event)
+// Handles each event for both the Game and the current GameState. Note: this
+// method may run any number of times per frame
+void Game::masterEvent(sf::Time elapsed, sf::Event a_event)
 {
     // Ensures that the virtual screen is kept at the proper size and
     // aspect ratio within the RenderWindow
     if (a_event.type == sf::Event::Resized)
         maintainAspectRatio(screenView, window);
+    
+    // Call event() on the Game itself
+    event(elapsed, a_event);
 
-    event(a_event);
-
+    // Call event() on the current state
     if (!states.empty())
-        states.top()->event(a_event);
+        states.top()->event(elapsed, a_event);
 }
 
-/// Performs actions for both the Game and it's current GameState
-void Game::masterTick()
-{
-    tick();
+// Handles the per-frame update of the Game and its current GameState
+void Game::masterUpdate(sf::Time elapsed)
+{    
+    // Call update() on the Game itself
+    update(elapsed);
 
+    // Call update() on the current state
     if (!states.empty())
-        states.top()->tick();
+        states.top()->update(elapsed);
 }
 
 /// Draws both the Game and it's current GameState
