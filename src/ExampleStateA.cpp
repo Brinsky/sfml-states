@@ -1,6 +1,7 @@
 #include "ExampleStateA.h"
 
 #include <memory>
+#include <iostream>
 
 #include "ExampleStateB.h"
 
@@ -41,10 +42,12 @@ void ExampleStateA::resume()
 
 void ExampleStateA::event(sf::Time elapsed, sf::Event a_event)
 {
-    if (a_event.type == sf::Event::KeyReleased)
+    if (a_event.type == sf::Event::KeyPressed)
     {
         if (a_event.key.code == sf::Keyboard::Space)
         {
+            std::cout << "Frame time: " << elapsed.asMilliseconds() << std::endl;
+
             game.changeState(
                 std::unique_ptr<GameState>(new ExampleStateB(game, font)));
         }

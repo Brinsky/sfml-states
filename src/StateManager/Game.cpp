@@ -42,9 +42,15 @@ void Game::loop()
 {
     sf::Event a_event;
     sf::Time elapsed;
+    
+    // Just in case the Game was constructed long before loop() started
+    clock.restart(); 
 
     while (running)
     {
+        // Gets the elapsed time and simultaneously resets the Clock
+        elapsed = clock.restart();
+        
         while (window.pollEvent(a_event))
             masterEvent(elapsed, a_event);
 

@@ -54,6 +54,8 @@ class Game
 
         std::stack<std::unique_ptr<GameState>> states;
         bool running;
+
+        sf::Clock clock;
 };
 
 #endif
