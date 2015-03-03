@@ -5,3 +5,4 @@ sfml-states
 **/*.swo
 docs/**
 **/*.exe
+**/*.a
