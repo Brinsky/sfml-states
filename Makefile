@@ -1,0 +1,28 @@
+CXX=g++
+CXXFLAGS = -Wall -std=c++11
+
+INCLUDES = -I./include -I./include/StateManager
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+
+vpath %.o ./build
+vpath %.h ./include:./include/StateManager
+vpath %.cpp ./src:./src/StateManager
+
+all: libsfml-state-man.a sfml-state-man-test
+
+.PHONY: clean
+
+libsfml-state-man.a: Game.o GameState.o VirtualScreen.o
+	ar rvs $@ $^
+
+sfml-state-man-test: main.cpp Game.o GameState.o VirtualScreen.o ExampleStateA.o ExampleStateB.o
+	$(CXX) $^ $(CXXFLAGS) $(LIBS) $(INCLUDES) -o $@
+	rm -f *.o
+
+%.o: %.cpp %.h
+	$(CXX) -c $< $(CXXFLAGS) $(LIBS) $(INCLUDES)
+	if [ ! -d "./build" ]; then mkdir build; fi	
+	cp $@ ./build
+
+clean:
+	rm -f libsfml-state-man.a sfml-state-man-test ./build/*.o

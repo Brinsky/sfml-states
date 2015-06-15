@@ -1,5 +1,5 @@
 build/**
-sfml-states
+sfml-state-man-test
 .sconsign.dblite
 **/*.swp
 **/*.swo
