@@ -7,8 +7,8 @@
 
 ExampleStateB::ExampleStateB(Game& a_game, sf::Font& a_font) :
     GameState(a_game),
-    font(a_font),
-    shape(100.f)
+    shape(100.f),
+    font(a_font)
 {
     shape.setFillColor(sf::Color::Red);
 
