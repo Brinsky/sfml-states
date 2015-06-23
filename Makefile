@@ -25,7 +25,7 @@ build:
 	if [ ! -d "./build" ]; then mkdir build; fi	
 
 tidy:
-	mv -f *.o ./build/
+	if [ `ls -l *.o 2> /dev/null | wc -l` -ne 0 ]; then mv -f *.o ./build/; fi
 
 clean:
 	rm -f libsfml-state-man.a sfml-state-man-test ./build/*.o
